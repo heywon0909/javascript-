@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>scoped CSS variables and JS</title>
+        <link rel="stylesheet" href="playstyle.css">
+    </head>
+    <body>
+        <h2>update CSS Variables with <span class="hl">JS</span></h2>
+            <div class="controls">
+            <div class="spacing"> 
+                <label for="spacing">Spacing:</label>
+                <input type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+            </div>
+            <div class="blur">
+                <label for="blur">Blur</label>
+                <input type="range" name="blur" min="10" max="200" value="10" data-sizing="px">
+            </div>
+            <div class="base">
+                <label for="base">Base Color</label>
+                <input type="color" name="base" min="10" max="200" value="#ffc600">
+            </div>
+    </div>
+
+    <img src="../indigo.jpg" width="600px" height="400px">
+
+    </body>
+    <script>
+        const inputs = document.querySelectorAll('.controls input');
+        
+        function handleUpdate(){
+            const suffix = this.dataset.sizing || '';
+            console.log(suffix);
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+        }
+        inputs.forEach(input => input.addEventListener('change',handleUpdate));
+        inputs.forEach(input => input.addEventListener('mousemove',handleUpdate));
+    
+    </script>
+</html>

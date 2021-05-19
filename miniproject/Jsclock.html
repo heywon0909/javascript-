@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JS + CSS Clock</title>
+        <link rel="stylesheet" href="jsclock-style.css">
+    </head>
+    <body>
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand"></div>
+                <div class="hand min-hand"></div>
+                <div class="hand second-hand"></div>
+            </div>
+        </div>
+        <div class="timedesc">
+           <div class="js-hour"></div>
+           <div class="js-min"></div>
+           <div class="js-second"></div>
+        </div>
+        <div class="tpick">
+            
+            <div id="tpick-h"></div>
+            <div id="tpick-m"></div>
+            <div id="tpick-s"></div>
+            
+            <div class="button">
+                <input type="button" value="Set" id="tset"/>
+                <input type="button" value="Reset" id="treset" disabled/>
+            </div>
+        </div>
+
+        <audio id="alarm-sound" loop>
+            <source src="../Alarm-clock-sound/Alarm-clock- sound.mp3" type="audio/mp3">            
+        </audio>
+        <script>
+            const secondHand = document.querySelector('.second-hand');
+            const minuteHand = document.querySelector('.min-hand');
+            const hourHand = document.querySelector('.hour-hand');
+            
+
+            const clockContainer = document.querySelector(".timedesc");
+            const clocksecond = clockContainer.querySelector(".js-second");
+            const clockmin = clockContainer.querySelector(".js-min");
+            const clockhour = clockContainer.querySelector(".js-hour");
+            
+            function setDate(){
+                const now = new Date();
+                const seconds = now.getSeconds();
+                clocksecond.innerText = `${seconds <10 ? `0${seconds}`:seconds}` + "초이야..";
+                const secondsDegrees = ((seconds / 60) * 360) + 90;
+                secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+            }
+            setInterval(setDate,1000);
+            
+            function setMinute(){
+                const now = new Date();
+                const Minutes = now.getMinutes();
+                clockmin.innerText =  `${Minutes < 10? `0${Minutes}`:Minutes}`+"분 ";
+                const minuteDegrees = ((Minutes / 60) * 360) + 90;
+                minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+            }
+            setInterval(setMinute,1000);
+            
+            function setHour(){
+                const now = new Date();
+                const Hours = now.getHours();
+                clockhour.innerText = "벌써  " +  `${Hours <10? `0${Hours}`: Hours}` +"시 ";
+                const hoursDegrees = ((Hours)/24) * 360;
+                hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+
+            }
+            setInterval(setHour,1000);
+
+
+
+            var ac = {
+               init: function(){
+
+
+                
+                   ac.thr = ac.createSel(23);
+                   document.getElementById("tpick-h").appendChild(ac.thr);
+                   
+                   ac.thm = ac.createSel(59);
+                   document.getElementById("tpick-m").appendChild(ac.thm);
+
+                   ac.ths = ac.createSel(59);
+                   document.getElementById("tpick-s").appendChild(ac.ths);
+
+
+                   ac.tset = document.getElementById("tset");
+                   ac.tset.addEventListener("click",ac.set);
+
+                   ac.treset = document.getElementById("treset");
+                   ac.treset.addEventListener("click",ac.reset);
+
+                    ac.sound = document.getElementById("alarm-sound");
+
+                    ac.alarm = null;
+                    setInterval(ac.tick, 1000);
+               },
+               createSel: function(max){
+                   var selector = document.createElement("select");
+                   for(var i=0;i<=max;i++){
+                       var opt = document.createElement("option");
+                       i = ac.padzero(i);
+                       opt.value = i;
+                       opt.innerHTML = i;
+                       selector.appendChild(opt);
+                   }
+                   return selector
+                },
+
+                padzero: function(num){
+                    if(num < 10){num = "0"+num;}
+                    else{num = num.toString();}
+                    return num;
+                },
+                tick: function(){
+                    var now = new Date();
+                    var hr = ac.padzero(now.getHours());
+                    var min = ac.padzero(now.getMinutes());
+                    var sec = ac.padzero(now.getSeconds());
+
+                    if(ac.alarm != null){
+                        now = hr + min + sec;
+                        if(now == ac.alarm){
+                            if(ac.sound.paused){
+                                ac.sound.play();
+                            }
+                        }
+                    }
+                },
+                set : function(){
+                    ac.alarm = ac.thr.value + ac.thm.value + ac.ths.value;
+                    ac.thr.disabled = true;
+                    ac.thm.disabled = true;
+                    ac.ths.disabled = true;
+                    ac.tset.disabled = true;
+                    ac.treset.disabled = false;
+                },
+                reset: function(){
+                    if(!ac.sound.paused){ac.sound.pause();}
+                    ac.alarm = null;
+                    ac.thr.disabled = false;
+                    ac.thm.disabled = false;
+                    ac.ths.disabled = false;
+                    ac.tset.disabled = false;
+                    ac.treset.disabled = true;
+                }
+               };
+
+               window.addEventListener("load",ac.init);
+
+            
+        </script>
+    </body>
+</html>
