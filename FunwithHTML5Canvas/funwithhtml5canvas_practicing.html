@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HTML Canvas practicing</title>
+        <style>
+            .settings{
+                display: flex;
+                justify-content: center;
+                
+            }
+            button{
+                background-color: black;
+                color:white;
+                width: 100px;
+                height: 30px;
+                margin: 10px;
+                font-size: 13px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="draw" width="1500" height="600"></canvas>
+        <div class="settings">
+            <button class="erase">Erase</button>
+            <button class="reset">Reset</button>
+        </div>
+        
+        <script>
+            const canvas = document.querySelector('#draw');
+            const ctx = canvas.getContext('2d');
+            const erase_btn = document.querySelector('.erase');
+            const reset_btn = document.querySelector('.reset');
+           
+            
+
+            ctx.strokeStyle="#BADA55";
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 100;
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let hue = 0;
+            let direction = true;
+            let mode = false;
+
+            function draw(e){
+                if(!isDrawing) return;
+                console.log(e);
+                if(mode){
+                    
+                ctx.strokeStyle = "white";
+                 
+                }else{
+                    ctx.globalCompositeOperation="source-over";    
+                ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+                }
+                ctx.beginPath();
+                ctx.moveTo(lastX,lastY);
+                ctx.lineTo(e.offsetX,e.offsetY);
+                ctx.stroke();
+                [lastX,lastY] = [e.offsetX,e.offsetY];
+
+                hue++;
+                if(hue >= 360){
+                    hue = 0;
+                }
+                if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1){
+                    direction =!direction;
+                }
+                if(direction){
+                    ctx.lineWidth++;
+                }else{
+                    ctx.lineWidth--;
+                }
+
+            }
+            function reset(){
+                
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                ctx.beginPath();
+                
+            }
+            
+            canvas.addEventListener('mousedown',(e)=>{
+                isDrawing = true;
+                [lastX,lastY]=[e.offsetX,e.offsetY];
+            });
+            canvas.addEventListener('mousemove',draw);
+            
+            canvas.addEventListener('mouseup',()=> isDrawing= false);
+            canvas.addEventListener('mouseout',()=>isDrawing= false);
+            
+            erase_btn.addEventListener('click',()=>mode= true);
+            reset_btn.addEventListener('click',reset);
+        </script>
+    </body>
+</html>
