@@ -1,4 +1,4 @@
-# javascript
+# javascript 30 day project _ practice and learn
 
 
 
