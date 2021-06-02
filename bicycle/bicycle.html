@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="bicycle.json"></script>
+        <title>
+
+        </title>
+        <link rel="stylesheet" href="bicycle.css">
+    </head>
+    <body>
+        <form class="search-form">
+            <input type="text" class="search" placeholder="따릉이 대여소는 어디에 위치해있을까요?">
+            <ul class="suggestions">
+                <li>자치구를 입력하세요</li>
+                <li>혹은 대여소 주변 위치를 입력하세요</li>
+            </ul>
+        </form>
+        <script>
+            var parseData = JSON.parse(JSON.stringify(bicycle));
+            //console.log(parseData);
+
+            const data = [];
+            data.push(...bicycle);
+            console.log(data);
+
+            function findMatches(wordToMatch,data){
+                return data.filter(place => {
+                    const regex = new RegExp(wordToMatch,'g');
+                    return place.rental_place.match(regex) || place.location.match(regex)
+                });
+            }
+            function displayMatches(){
+                const matchArray = findMatches(this.value,data)
+                const html = matchArray.map(place => {
+                    const regex = new RegExp(this.value,'g');
+                    const rental = place.rental_place.replace(
+                        regex,`<span class="h1">${this.value}</span>`);
+                    const loc = place.location.replace(
+                        regex, `<span class="h1">${this.value}</span>`);    
+                    return `
+                        <li>
+                        <span class="name">${rental},${loc}</span>
+                        <span class="loc">${place.detail_location}</span>
+                        </li>
+                    `;
+                }).join('');
+                suggestions.innerHTML = html;
+            }
+            const searchInput = document.querySelector('.search');
+            const suggestions = document.querySelector('.suggestions');
+
+            searchInput.addEventListener('change',displayMatches);
+            searchInput.addEventListener('keyup',displayMatches);
+        </script>
+    </body>
+</html>
