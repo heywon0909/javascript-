@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Hyewon's TODO list
+        </title>
+        <link rel="stylesheet" href="checkboxes.css">
+    </head>
+    <body>
+        <div class="header">
+            <h1>Hyewon's TODO LIST</h1>
+        </div>
+       <div class="checknum">
+           <div class="countCheck"><p class="box">00 checked</p></div>
+           <input type="button" value="uncheck" class="button">
+       </div> 
+       <div>
+       <div class="insert">
+           <input type="text" class="insert_text">
+           <input class="plus_btn" type="button" value="plus">
+       </div>
+       <div class="inbox">
+           <div class="item">
+               <input type="checkbox">
+               <p>wake up at 8:00</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>happy coding</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>reading books</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>take a walk</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>watching Netflix</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>cooking</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>exercising</p>
+           </div>
+           <div class="item">
+                <input type="checkbox">
+                <p>Good Luck!</p>
+           </div>
+           <div class="item">
+               <input type="checkbox">
+               <p>Don't forget to tweet your result1</p>
+           </div>
+       </div>
+       <script>
+           
+           var uncheck = document.querySelector('.button');
+           var checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+           const plus = document.querySelector('.plus_btn');
+           
+           let lastChecked;
+           let count = 0;
+            
+           function handleCheck(e){
+               let inBetween = false;
+               
+               
+
+               if(e.shiftKey && this.checked){
+                   checkboxes.forEach(checkbox=>{
+                       
+                       if(checkbox === this || checkbox === lastChecked){
+                           inBetween = !inBetween;
+                       }
+                       if(inBetween){
+                           checkbox.checked = true;
+                           count++;
+                           
+                       }
+                   })
+               }else{
+                if(this.checked){
+                    ++count;
+                }else{
+                    --count;
+                }
+
+            }
+              lastChecked = this;
+              console.log(count);
+              document.querySelector('.box').innerHTML = `0${count} checked`;
+        }
+            function reset(){
+               
+               checkboxes.forEach(checkbox=>{
+                   
+                   if(checkbox.checked == true){
+                       checkbox.checked = false;
+                       document.querySelector('.box').innerHTML = `00 checked`;
+                   }
+               });
+            }
+            
+            function addCheck(){
+                var text = document.querySelector('.insert_text').value;
+                var uncheck = document.querySelector('.button');
+
+                var tmp = []
+                tmp.push(
+                    '<div class="item">',
+                        '<input type="checkbox">',
+                        `<p>${text}</p>`,
+                    '</div>'    
+                );
+                var htmlString = tmp.join('');
+                var element = document.querySelector('.inbox');
+                element.innerHTML = element.innerHTML + htmlString;
+            
+                
+                var checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+                var box = document.querySelector('.box');
+                console.log(checkboxes);
+
+            checkboxes.forEach(checkbox=>checkbox.addEventListener('click',function(e){      
+         
+               let inBetween = false;
+               
+               
+
+               if(e.shiftKey && this.checked){
+                   checkboxes.forEach(checkbox=>{
+                       
+                       if(checkbox === this || checkbox === lastChecked){
+                           inBetween = !inBetween;
+                       }
+                       if(inBetween){
+                           checkbox.checked = true;
+                           count++;
+                           
+                       }
+                   })
+               }else{
+                if(this.checked){
+                    ++count;
+                }else{
+                    --count;
+                }
+
+            }
+              lastChecked = this;
+              console.log(count);
+              document.querySelector('.box').innerHTML = `0${count} checked`;
+        }));
+            uncheck.addEventListener('click',function(){
+               checkboxes.forEach(checkbox=>{
+                  if(checkbox.checked == true){
+                      checkbox.checked = false
+                      document.querySelector('.box').innerHTML = `00 checked`;
+                  }
+               })
+              
+            });
+        
+
+            }
+
+           
+
+
+
+            plus.addEventListener('click',addCheck);
+           checkboxes.forEach(checkbox=>checkbox.addEventListener('click',handleCheck));
+           uncheck.addEventListener('click', reset);
+          
+          
+       </script> 
+    </body>
+</html>
