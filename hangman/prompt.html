@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+        <link rel="stylesheet" href="hangman.css">
+    </head>
+    <body>
+        <div class="header">
+            <h1>Hangman</h1> 
+        </div>
+        <div class="words">
+            <p class="answers"></p>
+        </div>
+        <div class="gameOver">
+            <p>Ready to play</p>
+        </div>
+        <div class="button">
+            <button value="a">a</button>
+            <button value="b">b</button>
+            <button value="c">c</button>
+            <button value="d">d</button>
+            <button value="e">e</button>
+            <button value="f">f</button>
+            <button value="g">g</button>
+            <button value="h">h</button>
+            <button value="i">i</button>
+            <button value="j">j</button>
+            <button value="k">k</button>
+            <button value="l">l</button>
+            <button value="m">m</button>
+            <button value="n">n</button>
+            <button value="o">o</button>
+            <button value="p">p</button>
+            <button value="q">q</button>
+            <button value="r">r</button>
+            <button value="s">s</button>
+            <button value="t">t</button>
+            <button value="u">u</button>
+            <button value="v">v</button>
+            <button value="w">w</button>
+            <button value="x">x</button>
+            <button value="y">y</button>
+            <button value="z">z</button>
+
+        </div>
+        <div class="count">
+            <input type="button" value="reset" class="reset" >
+        </div>
+        <script>
+            var words = ["javascript","monkey","amazing","pancake"];
+            var word = words[Math.floor(Math.random() * words.length )];
+            var count = 10;
+            var answersArray = [];
+            for(var i=0; i < word.length; i++){
+                answersArray[i] ="_";
+            }
+            
+            document.querySelector(".answers").innerHTML = answersArray.join(" ");
+
+            var reset_btn = document.querySelector(".reset");
+            reset_btn.addEventListener('click',function(){
+                word = words[Math.floor(Math.random() * words.length )];
+                for(var i=0; i < word.length; i++){
+                answersArray[i] ="_";
+            }
+            
+            document.querySelector(".answers").innerHTML = answersArray.join(" ");
+            document.querySelector(".gameOver").innerHTML = `Game START`;
+            console.log(answersArray);
+            });
+           
+           
+            
+            var buttons = document.querySelectorAll('.button');
+            
+            buttons.forEach(button => button.addEventListener('click',function(e){
+                var guess = e.target.value;
+                count--;
+                for(var i=0; i<word.length;i++){
+                    if(guess == word[i]){
+                        answersArray[i] = guess;
+                       
+                    }
+                    document.querySelector(".answers").innerHTML = answersArray.join(" ");
+                    document.querySelector(".gameOver").innerHTML = `chances: 0${count}`;
+                    if(count == 0 ){
+                        document.querySelector(".gameOver").innerHTML =   `GameOver`;
+                        count = 10;
+                        break;
+                    }
+                }
+               
+            }));
+            
+            
+          
+
+        </script>
+    </body>
+</html>
