@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="mousemove_style.css">
+        <title>css mouse move</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <h2>Dunkin donuts</h2>
+        </div>
+        <script>
+            const wrapper = document.querySelector('.wrapper');
+            const title = wrapper.querySelector('h2');
+            const walk = 100;
+            function moveTitle(e){
+                const width = wrapper.offsetWidth;
+                const height = wrapper.offsetHeight;
+               
+                let x = e.offsetX;
+                let y = e.offsetY;
+                
+                
+                if(this!==e.target){
+                    x = x + e.target.offsetLeft;
+                    y = y + e.target.offsetTop;
+                }
+                
+                const xwalk = (x /width * walk) - (walk / 2);
+                const ywalk = (y/height * walk) - (walk/2);
+
+                title.style.textShadow = `${xwalk}px ${ywalk}px 0 rgb(238, 24, 184),
+                ${xwalk*-1}px ${ywalk}px 0 rgb(200,20,100),
+                ${xwalk}px ${ywalk*-1}px 0 rgb(100,10,1),
+                ${ywalk}px ${xwalk}px 0 rgb(50,100,1)`;
+                
+
+            }
+            wrapper.addEventListener('mousemove',moveTitle);
+        </script>    
+    </body>
+</html>

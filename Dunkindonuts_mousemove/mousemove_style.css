@@ -1,0 +1,17 @@
+html{
+    color: rgb(238, 81, 24);
+
+}
+body{
+    margin:0;
+}
+.wrapper{
+    min-height: 100vh;
+    font-size: 30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+h2{
+    text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+}
