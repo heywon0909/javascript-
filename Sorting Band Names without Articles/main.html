@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Fillipe Gomes 님의 사진, 출처: Pexels</title>
+</head>
+<body>
+    
+    <form class="add-items">
+        <div class="holder">
+        <input type="text" class="effect" placeholder="input whatever you want to write">
+        <span class="focus-border"></span>
+        <input type="button" value="input" class="input">
+        </div>
+        
+    </form>
+    <div class="change">
+        <input type="button" value="sort" id="sortWord" class="button1 bouncy">
+        <input type="button"  class="button1 bouncy" id="remove" value="delete" >
+        <input type="button" class="button1 bouncy" id="unchecked" value="unchecked">
+    </div>
+    <ul id="bands"></ul>
+    <script>
+         const bands = JSON.parse(localStorage.getItem('bands')) || ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+         const remove = document.querySelector('#remove');
+         const uncheck = document.querySelector('#unchecked');
+         // 웹사이트 초기화 화면 (리스트)
+         window.onload = function addList(){ 
+             document.querySelector('#bands').innerHTML = bands.map((band,i)=>{
+                return`<li id="${i}">
+                    <input type="checkbox" data-index="${i}" id="band${i}">
+                    <label for="band${i}">${band}</label>
+                    </li>`}).join('');
+            localStorage.setItem('bands',JSON.stringify(bands));        
+         }
+         const sorting = document.querySelector('#sortWord');
+         function strip(bandName){
+             return bandName.replace(/^(a |the |an )/i,'').trim();
+         }
+         
+         //strip 기준에 따라 단어 sort => 대소문자 구분없이 
+         function sortWords(){
+
+            const lists =bands.sort(function(a,b){
+                 var a = a.toLowerCase();
+                 var b = b.toLowerCase();
+                 if(strip(a)>strip(b)){
+                 }else{
+                     return -1;
+                 }
+             });
+            document.querySelector('#bands').innerHTML = lists.map((band,i)=>{
+                return`<li id="${i}">
+                    <input type="checkbox" data-index="${i}" id="band${i}">
+                    <label for="band${i}">${band}</label>
+                    </li>`}).join('');
+            localStorage.setItem('bnads',JSON.stringify(bands));        
+
+         }
+         sorting.addEventListener('click',sortWords);
+         const input = document.querySelector('.add-items');
+
+         // 단어 입력하여 ul안에 넣기
+        function addItems(e){
+            e.preventDefault();
+            const text = (this.querySelector('input[type="text"]')).value;
+            bands.push(text);
+            document.querySelector('#bands').innerHTML = bands.map((band,i)=>{
+                return`<li id="${i}">
+                    <input type="checkbox" data-index="${i}" id="band${i}">
+                    <label for="band${i}">${band}</label>
+                    </li>`}).join('');
+            this.reset();
+            localStorage.setItem('bands',JSON.stringify(bands));
+        }
+        input.addEventListener('submit',addItems);
+    
+        // check된 단어 삭제하기 
+        function delList(){
+             const ul = document.querySelector('#bands');
+             const lists = ul.querySelectorAll('input[type="checkbox"]');
+             lists.forEach((list,i)=>{
+                 if(list.checked){
+                     list.parentNode.remove();
+                     bands.splice(i,1);
+                     localStorage.setItem('bands',JSON.stringify(bands));
+                 }
+                 
+             });
+         }
+         // checked true => false 로 바꾸기
+         remove.addEventListener('click',delList);
+         function checking(e){
+             const ul = document.querySelector('#bands');
+             const lists = ul.querySelectorAll('input[type="checkbox"]');
+             lists.forEach((list)=>{
+                 if(list.checked){
+                     list.checked = !list.checked;
+                 }
+             });
+         }
+         uncheck.addEventListener('click',checking);
+        /*
+        function strip(bandName){
+          return bandName.replace(/^(a |the |an )/i,'').trim();
+        }
+        const sortedBands = bands.sort((a,b)=>strip(a)>strip(b)? 1:-1);
+        document.querySelector('#bands').innerHTML = sortedBands.map(band=> `
+        <li>
+            ${band}
+        </li>    
+        `).join('');
+        */
+    </script>    
+</body>
+</html>

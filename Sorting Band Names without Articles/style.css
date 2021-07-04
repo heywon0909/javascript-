@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Damion|Muli:400,600');
+html{
+    box-sizing: border-box;
+    background: url(pexels-fillipe-gomes-2093252.jpg) center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+*,*:before,*:after{
+    box-sizing: inherit;
+}
+#bands{
+    width: 390px;
+    background-color: white;
+    text-align: left;
+    margin: 1px -2PX;
+    padding: 7px 20px;
+}
+li{
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding: 10px 0;
+    list-style:none;
+    
+}
+#bands input{
+    display:none;
+}
+#bands input + label:before{
+    content: "⬜️";
+    margin-right: 10px;
+}
+#bands input:checked + label:before{
+    content:"✔️";
+}
+/* this button src="https://codepen.io/maheshambure21/pen/EozKKy" */
+input[type="text"]{
+    font: 15px/24px 'Muli', sans-serif; 
+    color: #333; 
+    width: 80%; 
+    height: 30%;
+    box-sizing: border-box; 
+    letter-spacing: 2px;
+}
+.effect{
+    border:0;
+    padding: 7px 0;
+    border-bottom: 2px solid #ccc;
+    letter-spacing: 1px;
+}
+:focus{
+    outline:none;
+}
+.holder{
+    display:flex;
+    width: 100%; 
+    position: relative;
+} /* necessary to give position: relative to parent. */
+input[type="text"]{
+    font: 15px/24px "Lato", Arial, sans-serif; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    letter-spacing: 1px;}
+.effect ~ .focus-border{
+    position: absolute;
+    bottom:0;
+    left:0;
+    width:0;
+    height: 2px;
+    background-color: #1884e9;
+    transition: 0.4s;
+}
+.effect:focus ~ .focus-border{
+    width:100%;
+    transition: 0.4s;
+}
+.input{
+    display:inline-block;
+    padding: 0.46em 1.6em;
+    border: 0.1em solid #0986b8;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-size: 14px;
+    font-family:'Roboto',sans-serif;
+    font-weight: 300;
+    color: #f5fac7;
+    
+    background-color: #0986b8;
+    text-align:center;
+    transition: all 0.15s;
+}
+.input:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:#FFFFFF;
+    border: 1.2px solid #FFFFFF;
+}
+/*this button src=https://fdossena.com/?p=html5cool/buttons/i.frag*/
+
+.bouncy{
+    animation:bouncy 5s infinite linear;
+    position:relative;
+    background-color: #e2a779;
+}
+.bouncy:hover{
+    color:#ffffff;
+    
+}
+@keyframes bouncy {
+    0%{top:0em}
+    40%{top:0em}
+    43%{top:-0.9em}
+    46%{top:0em}
+    48%{top:-0.4em}
+    50%{top:0em}
+    100%{top:0em;}
+    }
